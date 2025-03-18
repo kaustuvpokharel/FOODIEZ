@@ -1,0 +1,85 @@
+# General ignores for Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+venv/
+ENV/
+env/
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Django specific
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+*.log
+*.pot
+*.py[co]
+local_settings.py
+settings_local.py
+instance/
+config/settings/local.py
+config/settings/secrets.json
+
+# Virtual Environment
+venv/
+env/
+.env
+*.env
+.idea/
+.vscode/
+*.swp
+
+# Qt specific (C++)
+*.pro.user
+*.qmake.stash
+*.moc
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+cmake-build-*/
+CMakeLists.txt.user
+Makefile
+*.o
+*.a
+*.so
+*.dSYM/
+*.ipch
+*.swp
+*.swo
+
+# Qt Creator specific
+*.autosave
+*.pro.user.*
+*.creator.*
+*.qrc
+*.qmlc
+*.qmlproject.user
+*.qtdesignersession
+*.qtc-*
+
+# Compiled files
+*.out
+*.exe
+*.dll
+*.lib
+*.a
+*.la
+*.lo
+*.lai
+*.so*
+*.swp
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# Git specific
+.DS_Store
+*.orig
