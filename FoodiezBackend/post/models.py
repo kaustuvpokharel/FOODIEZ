@@ -8,6 +8,31 @@ from common.models import BaseModel
 User = get_user_model()
 
 
+class Recipe(BaseModel):
+    """Model for storing a recipe linked to a post."""
+
+    post = models.OneToOneField("Post", on_delete=models.CASCADE, related_name="recipe")
+    title = models.CharField(max_length=255, help_text="Title of the recipe.")
+
+    def __str__(self):
+        return f"Recipe for {self.post.user.username}'s post"
+
+
+class RecipeStep(models.Model):
+    """Step-wise instructions for a recipe with optional timers."""
+
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="steps")
+    step_number = models.PositiveIntegerField(help_text="Step order number.")
+    description = models.TextField(help_text="Instruction for the step.")
+    timer_seconds = models.PositiveIntegerField(blank=True, null=True, help_text="Time in seconds (optional).")
+
+    class Meta:
+        ordering = ["step_number"]
+
+    def __str__(self):
+        return f"Step {self.step_number} for Recipe {self.recipe.title}"
+
+
 class Post(BaseModel):
     """Model representing a food-related post by a user."""
 
@@ -17,7 +42,7 @@ class Post(BaseModel):
     # Explicit count fields (default to 0)
     like_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
-    media_count = models.PositiveIntegerField(default=0)  # Tracks total media files (images/videos)
+    media_count = models.PositiveIntegerField(default=0)
 
     # Many-to-Many for likes
     likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)
@@ -26,10 +51,15 @@ class Post(BaseModel):
     slug = models.SlugField(unique=True, blank=True)
 
     def save(self, *args, **kwargs):
-        """Generate a unique slug if not provided."""
+        """Generate a unique slug if not provided and create a recipe if a media file is uploaded."""
         if not self.slug:
             self.slug = slugify(f"{self.user.username}-{self.created_at.timestamp()}")
+
         super().save(*args, **kwargs)
+
+        # Ensure a recipe is created if it doesn't exist
+        if self.media_files.exists() and not hasattr(self, 'recipe'):
+            Recipe.objects.create(post=self, title=f"Recipe by {self.user.username}")
 
     # ------------ LIKE SYSTEM ------------
     def add_like(self, user):
@@ -63,6 +93,10 @@ class Post(BaseModel):
         """Updates media count manually."""
         self.media_count = self.media_files.count()
         self.save(update_fields=['media_count'])
+
+        # Create a recipe if media is uploaded and not already created
+        if self.media_files.exists() and not hasattr(self, 'recipe'):
+            Recipe.objects.create(post=self, title=f"Recipe by {self.user.username}")
 
     def __str__(self):
         return f"Post by {self.user.username} at {self.created_at.strftime('%Y-%m-%d %H:%M')}"
