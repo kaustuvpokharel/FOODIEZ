@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools >= 58.1.0"]
+requires = ["setuptools >= 76.1.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,9 +10,12 @@ description = """
 Analyzing video reels to get recipes
 """
 
-keywords = ["Machinelearning","Scratch","Core"]
+keywords = ["Machinelearning","Media","Analysis"]
 
 dependencies = [
+    "opencv-python==4.6.0.66",
+    "torch==2.2.2"
+
 ]
 requires-python = ">=3.9"
 
