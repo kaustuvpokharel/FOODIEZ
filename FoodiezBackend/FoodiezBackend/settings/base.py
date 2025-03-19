@@ -1,6 +1,7 @@
 import os
-import environ
 from pathlib import Path
+
+import environ
 
 # Load environment variables from .env file
 env = environ.Env(
@@ -8,14 +9,13 @@ env = environ.Env(
 )
 
 # Read .env file
-environ.Env.read_env(os.path.join(Path(__file__).resolve().parent.parent, ".env"))
+environ.Env.read_env(os.path.join(Path(__file__).resolve().parent.parent.parent, ".env"))
 
 # Base directory
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Development mode flag
 DEVELOPMENT = env("DEVELOPMENT")
-
 # Secret key
 SECRET_KEY = env("SECRET_KEY")
 
@@ -42,8 +42,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "my_project.urls"
-WSGI_APPLICATION = "my_project.wsgi.application"
+ROOT_URLCONF = "FoodiezBackend.urls"
+WSGI_APPLICATION = "FoodiezBackend.wsgi.application"
 
 TEMPLATES = [
     {
