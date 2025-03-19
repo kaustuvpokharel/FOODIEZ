@@ -36,7 +36,6 @@ INSTALLED_APPS = [
 
     "user",
     "post",
-
 ]
 
 MIDDLEWARE = [
