@@ -1,0 +1,11 @@
+Metadata-Version: 2.2
+Name: media-analysis
+Version: 1.0.0
+Summary: Analyzing video reels to get recipes
+Author-email: Sidhant Raj Khati <sidhant.raj.khati@gmail.com>
+License: MIT
+Keywords: Machinelearning,Scratch,Core
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
