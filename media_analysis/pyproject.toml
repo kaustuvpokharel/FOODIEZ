@@ -15,7 +15,6 @@ keywords = ["Machinelearning","Media","Analysis"]
 dependencies = [
     "opencv-python==4.6.0.66",
     "torch==2.2.2"
-
 ]
 requires-python = ">=3.9"
 
