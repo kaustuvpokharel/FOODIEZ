@@ -11,6 +11,7 @@ env/
 Pipfile
 Pipfile.lock
 poetry.lock
+.pytest_cache
 
 # Django specific
 *.sqlite3
