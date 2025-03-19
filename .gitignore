@@ -84,5 +84,5 @@ Makefile
 .DS_Store
 *.orig
 
-*/dist
-*/media_analysis.egg-info
+*/dist/
+*/media_analysis.egg-info/
