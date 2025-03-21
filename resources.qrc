@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>Assets/fonts/Poppins-Bold.ttf</file>
+        <file>Assets/fonts/Poppins-Medium.ttf</file>
+        <file>Assets/fonts/Poppins-Regular.ttf</file>
+        <file>Assets/fonts/Poppins-SemiBold.ttf</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>Assets/icons/grid.png</file>
+        <file>Assets/icons/play.png</file>
+        <file>Assets/icons/add_filled.png</file>
+        <file>Assets/icons/add.png</file>
+        <file>Assets/icons/apple.png</file>
+        <file>Assets/icons/arrow-right.png</file>
+        <file>Assets/icons/bookmark.png</file>
+        <file>Assets/icons/chevron-right.png</file>
+        <file>Assets/icons/edit.png</file>
+        <file>Assets/icons/facebook.png</file>
+        <file>Assets/icons/filter.png</file>
+        <file>Assets/icons/globe.png</file>
+        <file>Assets/icons/google.png</file>
+        <file>Assets/icons/heart.png</file>
+        <file>Assets/icons/home_filled.png</file>
+        <file>Assets/icons/home.png</file>
+        <file>Assets/icons/image.png</file>
+        <file>Assets/icons/lock.png</file>
+        <file>Assets/icons/mail.png</file>
+        <file>Assets/icons/message-circle.png</file>
+        <file>Assets/icons/message.png</file>
+        <file>Assets/icons/more-horizontal.png</file>
+        <file>Assets/icons/music.png</file>
+        <file>Assets/icons/notification.png</file>
+        <file>Assets/icons/plus.png</file>
+        <file>Assets/icons/search_filled.png</file>
+        <file>Assets/icons/search.png</file>
+        <file>Assets/icons/settings.png</file>
+        <file>Assets/icons/share.png</file>
+        <file>Assets/icons/tag.png</file>
+        <file>Assets/icons/user_filled.png</file>
+        <file>Assets/icons/user.png</file>
+        <file>Assets/icons/video_filled.png</file>
+        <file>Assets/icons/video.png</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>Assets/images/loginBg.jpg</file>
+    </qresource>
+</RCC>
