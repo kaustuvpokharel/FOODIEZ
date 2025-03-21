@@ -152,15 +152,28 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 56
-                    color: emailText.length > 0 && passwordText.length > 0 ? "#9C27B0" : "#666666"
+                    color: emailText.length > 8 && passwordText.length > 8 ? "#9C27B0" : "#666666"
                     radius: 12
                     Layout.topMargin: 8
 
                     MouseArea {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        enabled: emailText.length > 0 && passwordText.length > 0
-                        onClicked: root.loginSuccessful()
+                        enabled: emailText.length > 8 && passwordText.length > 8
+                        onClicked:
+                        {
+                            var isAutheticated = auth.checkUser(emailText, passwordText);
+                            if(isAuthenticated)
+                            {
+                                root.loginSuccessful();
+                            }
+                            else
+                            {
+                                console.log("password didn't match");
+                            }
+
+                        }
+
                     }
                     Row {
                         anchors.centerIn: parent
