@@ -19,6 +19,7 @@ qt_add_qml_module(appFOODIEZ
     QML_FILES Assets/pages/Login.qml
     RESOURCES resources.qrc
     QML_FILES Assets/pages/MainContent.qml
+    SOURCES Loginauthentication.h Loginauthentication.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
