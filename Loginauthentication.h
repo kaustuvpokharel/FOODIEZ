@@ -9,7 +9,11 @@ class LoginAuth: public QObject
     Q_OBJECT
 public:
     LoginAuth(QObject* parent = nullptr);
-    Q_INVOKABLE bool checkUser(QString email, QString password);
+    Q_INVOKABLE void checkUser(QString email, QString password);
+
+signals:
+    void authResult(bool result);
+
 
 private:
     QTcpSocket* socket;

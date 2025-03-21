@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     //for LoginAuthetication Class
     LoginAuth auth;
-    engine.rootContext()->setContextProperty("auth", & auth);
+    engine.rootContext()->setContextProperty("Auth", &auth);
 
 
     const QUrl url(u"qrc:/FOODIEZ/main.qml"_qs);

@@ -12,14 +12,15 @@ LoginAuth::LoginAuth(QObject* parent)
  * @parem input email and password from user (passed inside qml)
  * @returns 'true' or 'false' after authentication
  */
-bool LoginAuth::checkUser(QString email, QString password)
+void LoginAuth::checkUser(QString email, QString password)
 {
     socket->connectToHost("IP place holder", 12345);
     //if connection doesn't happen in 3000millisecond
     if(!socket->waitForConnected(3000))
     {
         qDebug() << "Connection failed";
-        return false;
+        emit authResult(false);
+        return;
     }
 
     QString message = email + ":" + password;
@@ -28,21 +29,28 @@ bool LoginAuth::checkUser(QString email, QString password)
     if(!socket->waitForBytesWritten(2000))
     {
         qDebug() << "Write failed";
-        return false;
+        emit authResult(false);
+        return;
     }
 
     if(!socket->waitForReadyRead(3000))
     {
         qDebug() << "No response form the server";
 
-        return false;
+        emit authResult(false);
+        return;
     }
 
-
     QString response = QString::fromUtf8(socket->readAll().trimmed());
-    qDebug() << "Server response to login resquest: " << response;
 
+    if(response == "1")
+    {
+        emit authResult(true);
+    }
+    else
+    {
+        emit authResult(false);
+    }
 
-    return (response == "1");
 }
 
