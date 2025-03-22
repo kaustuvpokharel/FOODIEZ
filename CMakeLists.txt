@@ -17,8 +17,14 @@ qt_add_qml_module(appFOODIEZ
     VERSION 1.0
     QML_FILES main.qml
     QML_FILES Assets/pages/Login.qml
-    RESOURCES resources.qrc
     QML_FILES Assets/pages/MainContent.qml
+    QML_FILES Assets/pages/Home.qml
+    QML_FILES Assets/pages/Explore.qml
+    QML_FILES Assets/pages/Create.qml
+    QML_FILES Assets/pages/Reels.qml
+    QML_FILES Assets/pages/Profile.qml
+    RESOURCES resources.qrc
+
     SOURCES Loginauthentication.h Loginauthentication.cpp
 )
 
