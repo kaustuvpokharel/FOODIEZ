@@ -189,7 +189,7 @@ Item {
 
                         onClicked: {
                             loading = true;
-                            Auth.checkUser(emailField.text, passwordField.text);
+                            Auth.checkUser(emailText, passwordText);
                         }
                     }
                     Row {
