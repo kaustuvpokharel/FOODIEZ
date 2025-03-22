@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import Qt5Compat.GraphicalEffects
 
+
 Item {
     id: root
     width: parent.width
@@ -12,10 +13,35 @@ Item {
     signal loginSuccessful()
     //signal for sending the login has vbeen successful when the submit button is pushed
 
+    property bool loading: false
+
     property string emailText: ""
     property string passwordText: ""
+
+    Connections
+    {
+        target: Auth
+        function onAuthResult(success) {
+            loading = false;
+            if (success) root.loginSuccessful();
+            else console.log("Invalid credentials");
+        }
+    }
+
+    //loader until we land to the login page
+    BusyIndicator {
+        id: loader
+        anchors.centerIn: parent
+        running: root.loading
+        visible: root.loading
+        z: 1000  // Make sure it's above all elements
+        width: 64
+        height: 64
+    }
+
     Rectangle
     {
+
         id:background
         anchors.fill: parent
         color: "#121212"
@@ -152,15 +178,19 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 56
-                    color: emailText.length > 0 && passwordText.length > 0 ? "#9C27B0" : "#666666"
+                    color: emailText.length > 8 && passwordText.length > 8 ? "#9C27B0" : "#666666"
                     radius: 12
                     Layout.topMargin: 8
 
                     MouseArea {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        enabled: emailText.length > 0 && passwordText.length > 0
-                        onClicked: root.loginSuccessful()
+                        enabled: emailText.length > 8 && passwordText.length > 8
+
+                        onClicked: {
+                            loading = true;
+                            Auth.checkUser(emailField.text, passwordField.text);
+                        }
                     }
                     Row {
                         anchors.centerIn: parent
