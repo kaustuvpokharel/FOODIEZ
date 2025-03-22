@@ -1,11 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <Loginauthentication.h>
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    //for LoginAuthetication Class
+    LoginAuth auth;
+    engine.rootContext()->setContextProperty("Auth", &auth);
+
+
     const QUrl url(u"qrc:/FOODIEZ/main.qml"_qs);
     QObject::connect(
         &engine,
