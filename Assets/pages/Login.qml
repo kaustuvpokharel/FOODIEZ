@@ -200,8 +200,11 @@ Item {
                         enabled: emailText.length > 8 && passwordText.length > 8
 
                         onClicked: {
-                            loading = true;
-                            Auth.checkUser(emailText, passwordText);
+                            // loading = true;
+                            // Auth.checkUser(emailText, passwordText);
+
+                            ///Fort testing
+                            root.loginSuccessful();
                         }
                     }
                     Row {

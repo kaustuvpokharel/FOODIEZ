@@ -40,8 +40,15 @@
         <file>Assets/icons/user.png</file>
         <file>Assets/icons/video_filled.png</file>
         <file>Assets/icons/video.png</file>
+        <file>Assets/icons/heart-filled.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>Assets/images/loginBg.jpg</file>
+    </qresource>
+    <qresource prefix="/avatar">
+        <file>Assets/images/default_avatar.png</file>
+    </qresource>
+    <qresource prefix="/placeholders">
+        <file>Assets/images/placeholder.png</file>
     </qresource>
 </RCC>

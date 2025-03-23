@@ -67,6 +67,7 @@ Window {
             onLoginSuccessful:
             {
                 console.log("Login Successful: Need to give access to the application");
+                mainStack.replace(mainContentScreen);
             }
         }
     }
