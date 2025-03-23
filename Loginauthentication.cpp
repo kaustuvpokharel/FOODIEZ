@@ -2,10 +2,9 @@
 
 LoginAuth::LoginAuth(QObject* parent)
 {
-    socket = new QTcpSocket(this);
+    networkManager = new QNetworkAccessManager(this);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &LoginAuth::onReplyFinished);
 }
-
-
 
 /* Takes user credentials to send and check from the server
  *
@@ -14,36 +13,35 @@ LoginAuth::LoginAuth(QObject* parent)
  */
 void LoginAuth::checkUser(QString email, QString password)
 {
-    socket->connectToHost("IP place holder", 12345);
-    //if connection doesn't happen in 3000millisecond
-    if(!socket->waitForConnected(3000))
+    QUrl url("http://severLink");
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QJsonObject json;
+    json["email"] = email;
+    json["password"] = password;
+
+    QJsonDocument doc(json);
+    QByteArray data = doc.toJson();
+    networkManager->post(request, data);
+}
+
+void LoginAuth::onReplyFinished(QNetworkReply *reply)
+{
+    if(reply->error() != QNetworkReply::NoError)
     {
-        qDebug() << "Connection failed";
+        qDebug() << "Network error:" << reply->errorString();
         emit authResult(false);
+
+        reply->deleteLater();
         return;
     }
 
-    QString message = email + ":" + password;
-    socket->write(message.toUtf8());
+    QByteArray responseData = reply ->readAll();
+    QString response = QString::fromUtf8(responseData).trimmed();
 
-    if(!socket->waitForBytesWritten(2000))
-    {
-        qDebug() << "Write failed";
-        emit authResult(false);
-        return;
-    }
-
-    if(!socket->waitForReadyRead(3000))
-    {
-        qDebug() << "No response form the server";
-
-        emit authResult(false);
-        return;
-    }
-
-    QString response = QString::fromUtf8(socket->readAll().trimmed());
-
-    if(response == "1")
+    if(response == "1" || response == "true" || response.contains("success"))
     {
         emit authResult(true);
     }
@@ -52,5 +50,6 @@ void LoginAuth::checkUser(QString email, QString password)
         emit authResult(false);
     }
 
+    reply->deleteLater();
 }
 

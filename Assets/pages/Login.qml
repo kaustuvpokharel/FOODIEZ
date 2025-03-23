@@ -18,13 +18,16 @@ Item {
     property string emailText: ""
     property string passwordText: ""
 
-    Connections
-    {
+    Connections {
         target: Auth
         function onAuthResult(success) {
             loading = false;
-            if (success) root.loginSuccessful();
-            else console.log("Invalid credentials");
+            if (success) {
+                errorMessage.text = "";
+                root.loginSuccessful();
+            } else {
+                errorMessage.text = "Invalid email or password";
+            }
         }
     }
 
@@ -172,6 +175,15 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: console.log("Forgot password clicked")
                     }
+                }
+
+                //Error to user
+                Text {
+                    id: errorMessage
+                    text: ""
+                    color: "#FF5252"
+                    font.pixelSize: 14
+                    visible: text.length > 0
                 }
 
                 // Sign In button with validation
