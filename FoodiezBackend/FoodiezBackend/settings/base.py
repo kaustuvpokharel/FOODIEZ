@@ -70,6 +70,18 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'user.authentication.UsernameOrEmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Media setup (ensure this exists)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default profile picture path
+DEFAULT_PROFILE_PICTURE = 'profile_pics/default.png'
+
 STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = "user.User"
@@ -83,7 +95,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    # 'ROTATE_REFRESH_TOKENS': True,
+    # 'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
