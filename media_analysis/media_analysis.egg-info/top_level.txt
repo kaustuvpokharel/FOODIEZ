@@ -1,4 +1,2 @@
 dist
-examples
 media_analysis
-venv

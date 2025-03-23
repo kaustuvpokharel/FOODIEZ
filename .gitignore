@@ -83,3 +83,6 @@ Makefile
 # Git specific
 .DS_Store
 *.orig
+
+
+bijok_code.py
