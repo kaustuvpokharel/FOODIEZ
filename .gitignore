@@ -87,3 +87,5 @@ Makefile
 
 */dist/
 */media_analysis.egg-info/
+
+bijok_code.py
