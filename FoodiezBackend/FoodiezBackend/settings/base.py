@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
+    "channels"
 
     "user",
     "post",
@@ -53,6 +54,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "FoodiezBackend.urls"
 WSGI_APPLICATION = "FoodiezBackend.wsgi.application"
+
+ASGI_APPLICATION = 'FoodiezBackend.asgi.application'
 
 TEMPLATES = [
     {
