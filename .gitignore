@@ -89,3 +89,5 @@ Makefile
 */media_analysis.egg-info/
 
 bijok_code.py
+
+*/constants.py
