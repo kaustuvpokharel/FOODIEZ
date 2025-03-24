@@ -4,21 +4,9 @@ import os
 from PIL import Image
 import requests
 from io import BytesIO
-import timm
-import pytorch_lightning as pl
 from media_analysis.utils.recipes import idx_to_class
+from media_analysis.models.food_101_classifier import Food101Classifier
 
-
-class Food101Classifier(pl.LightningModule):
-    def __init__(self, lr=3e-4):
-        super().__init__()
-        self.model = timm.create_model("hf_hub:timm/vit_base_patch16_384.augreg_in1k", pretrained=False, num_classes=101)
-        self.criterion = torch.nn.CrossEntropyLoss()
-        self.lr = lr
-
-    def forward(self, x):
-        return self.model(x)
-    
 
 
 class FrameAnalyzer:
@@ -41,8 +29,8 @@ class FrameAnalyzer:
 
         # If you're using the model with PyTorch Lightning, you might also want to call model.eval() to set it to evaluation mode:
         self.model.eval()
-    
-    def preprocess_image(self,frame_path:str):
+
+    def preprocess_image(self, frame_path: str):
         """
         Preprocesses an image from a local path or URL for Food101 classification.
         
@@ -60,14 +48,28 @@ class FrameAnalyzer:
 
         # Check if input is a URL or local path
         if frame_path.startswith("http"):
-            response = requests.get(frame_path)
-            image = Image.open(BytesIO(response.content)).convert("RGB")
-        else:
-            image = Image.open(frame_path).convert("RGB")
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+            }
+            response = requests.get(frame_path, headers=headers)
+            
+            # Ensure the image is valid and non-empty
+            if response.status_code != 200:
+                raise ValueError(f"Failed to retrieve image from {frame_path}, status code: {response.status_code}")
+            
+            if len(response.content) == 0:
+                raise ValueError(f"Empty image data received from {frame_path}")
+
+            # Open the image content as a BytesIO stream
+            try:
+                image = Image.open(BytesIO(response.content)).convert("RGB")
+            except Exception as e:
+                raise ValueError(f"Unable to open image from {frame_path}. Error: {str(e)}")
         
         image = transform(image).unsqueeze(0)  # Add batch dimension
         return image
-    
+
+        
 
     def make_prediction(self,frame_path: str):
         """
@@ -88,3 +90,7 @@ class FrameAnalyzer:
         predicted_label = self.idx_to_class(predicted_class)
         return predicted_label
 
+if __name__ == "__main__":
+    analyzer = FrameAnalyzer()
+    cheese_cake = "https://www.onceuponachef.com/images/2017/12/cheesecake-1200x1393.jpg"
+    print(analyzer.make_prediction(cheese_cake) == "cheesecake")
