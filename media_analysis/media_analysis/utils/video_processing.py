@@ -30,6 +30,17 @@ class VideoProcessor:
         cv2.destroyAllWindows() 
         return frames
     
+    def resize_frame(self,frame):
+        size = (384,384)
+        return cv2.resize(frame,size)
+    
+    def normalize_frame(self,frame):
+        return frame/255.0
+        
+    def resize_and_normalize_frames(self,video_path,frame_rate):
+        frames = self.extract_frames(video_path,frame_rate)
+        return [self.normalize_frame(self.resize_frame(frame)) for frame in frames]
+    
     
 # frame_rate = 1, length = 31
 # frame_rate = 2, length = 63

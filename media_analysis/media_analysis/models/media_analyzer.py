@@ -1,6 +1,7 @@
 
 from media_analysis.utils.video_processing import VideoProcessor
 
+
 class MediaAnalyzer:
     def __init__(self, video_path):
         #model
