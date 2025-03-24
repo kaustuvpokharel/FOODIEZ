@@ -89,4 +89,4 @@ Makefile
 
 */*.egg-info
 *.mp4
-*/constants.py
+**/constants.py
