@@ -3,7 +3,7 @@ requires = ["setuptools >= 76.1.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "media_analyzer"
+name = "media-analysis"
 version = "1.0.0"
 
 description = """
@@ -13,9 +13,9 @@ Analyzing video reels to get recipes
 keywords = ["Machinelearning","Media","Analysis"]
 
 dependencies = [
-    "google-genai==1.7.0",
+    "opencv-python==4.6.0.66",
+    "torch==2.2.2"
 ]
-
 requires-python = ">=3.9"
 
 readme = {file = "README.md", content-type = "text/markdown"}
