@@ -42,6 +42,7 @@ qt_add_qml_module(appFOODIEZ
     QML_FILES Assets/components/PostItem.qml
     QML_FILES Assets/components/StoryItem.qml
     SOURCES Postmodel.h Postmodel.cpp
+    SOURCES Exploremodel.h Exploremodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

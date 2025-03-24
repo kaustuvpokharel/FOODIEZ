@@ -140,8 +140,7 @@ Item {
                 Column {
                     width: parent.width
                     spacing: 16
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                     Repeater {
                         model: 3
@@ -187,7 +186,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 }
