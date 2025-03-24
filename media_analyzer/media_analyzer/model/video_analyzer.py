@@ -2,7 +2,7 @@ import time
 from google import genai
 from google.genai import types
 
-from media_analyzer.model.video_prompts import user_prompt,system_prompt
+from media_analyzer.model.video_prompts import get_user_prompt,system_prompt
 from media_analyzer.utils.constants import GEMINI_API_KEYS
 
 class VideoAnalyzer:
@@ -12,7 +12,7 @@ class VideoAnalyzer:
         self.current_key_index = 0
         self.client = None
         self.rotate_key()
-        self.user_prompt = user_prompt
+        self.user_prompt = None
         self.system_prompt = system_prompt
         
 
@@ -21,7 +21,8 @@ class VideoAnalyzer:
         self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
         self.client = genai.Client(api_key=self.api_keys[self.current_key_index])
 
-    def analyze(self, video_path):
+    def analyze(self, video_path,keyword = None):
+        self.user_prompt = get_user_prompt(keyword)
         """Uploads and analyzes the video, extracting cooking details and a summary."""
         self.rotate_key()
         # print(self.api_keys[self.current_key_index])
@@ -74,7 +75,7 @@ if __name__=="__main__":
     analyzer = VideoAnalyzer()
     sample_vid = "/Users/macbookpro/Desktop/gemini_hackathon/media_analyzer/media_analyzer/tests/caesar_salad.mp4"
     sample_vid2 = "/Users/macbookpro/Desktop/gemini_hackathon/media_analyzer/media_analyzer/tests/cheesecake.mp4"
-    result = analyzer.analyze(sample_vid)
+    result = analyzer.analyze(sample_vid, )
     result3 = analyzer.analyze(sample_vid2)
     print(result)
     print(result3)
