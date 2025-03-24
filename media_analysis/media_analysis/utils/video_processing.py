@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from typing import List
 
 class VideoProcessor:
@@ -8,7 +9,7 @@ class VideoProcessor:
     def __init__(self) -> None:
         pass
 
-    def extract_frames(video_path, frame_rate = 1) -> List[int] :
+    def extract_frames(self,video_path, frame_rate = 1) -> List[np.ndarray]:
         frames = []
         cap = cv2.VideoCapture(video_path)
         fps = cap.get(cv2.CAP_PROP_FPS)
@@ -26,4 +27,37 @@ class VideoProcessor:
             frame_count += 1
 
         cap.release()
+        cv2.destroyAllWindows() 
         return frames
+    
+    def resize_frame(self,frame):
+        size = (384,384)
+        return cv2.resize(frame,size)
+    
+    def normalize_frame(self,frame):
+        return frame/255.0
+        
+    def resize_and_normalize_frames(self,video_path,frame_rate):
+        frames = self.extract_frames(video_path,frame_rate)
+        return [self.normalize_frame(self.resize_frame(frame)) for frame in frames]
+    
+    
+# frame_rate = 1, length = 31
+# frame_rate = 2, length = 63
+# frame_rate = 3, length = 99
+# frame_rate = 4, length = 139
+# frame_rate = 5, length = 174
+# frame_rate = 6, length = 231
+# frame_rate = 7, length = 231
+# frame_rate = 8, length = 347
+# frame_rate = 9, length = 347
+# frame_rate = 10, length = 347
+# frame_rate = 11, length = 347
+# frame_rate = 12, length = 693
+# frame_rate = 13, length = 693
+# frame_rate = 14, length = 693
+# frame_rate = 15, length = 693
+# frame_rate = 16, length = 693
+# frame_rate = 17, length = 693
+# frame_rate = 18, length = 693
+# frame_rate = 19, length = 693
