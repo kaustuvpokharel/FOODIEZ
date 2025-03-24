@@ -47,7 +47,10 @@ QHash<int, QByteArray> PostModel::roleNames() const {
 }
 
 void PostModel::fetchPosts() {
-    QUrl url("http://yourserver.com/api/posts"); // ✅ Replace this URL
+    m_loading = true;
+    emit loadingChanged();
+
+    QUrl url("http://yourserverhrtr");
     QNetworkRequest request(url);
     networkManager->get(request);
 }
@@ -55,6 +58,26 @@ void PostModel::fetchPosts() {
 void PostModel::onReplyFinished(QNetworkReply *reply) {
     if (reply->error() != QNetworkReply::NoError) {
         qWarning() << "Network error:" << reply->errorString();
+
+        // Use fallback demo data
+        beginResetModel();
+        posts.clear();
+
+        for (int i = 0; i < 3; ++i) {
+            Post post;
+            post.id = QString::number(i + 1);
+            post.userName = "Demo User " + QString::number(i + 1);
+            post.avatar = "qrc:/avatar/Assets/images/default_avatar.png";
+            post.image = "qrc:/placeholders/Assets/images/placeholder.png";
+            post.likes = 10 * (i + 1);
+            post.comments = 3 * (i + 1);
+            post.caption = "This is a demo post caption.";
+            post.timestamp = "Just now";
+            posts.append(post);
+        }
+
+        endResetModel();
+        emit countChanged();
         reply->deleteLater();
         return;
     }
@@ -88,5 +111,12 @@ void PostModel::onReplyFinished(QNetworkReply *reply) {
     }
 
     endResetModel();
+    emit countChanged();
     reply->deleteLater();
+    m_loading = false;
+    emit loadingChanged();
+}
+
+bool PostModel::isLoading() const {
+    return m_loading;
 }

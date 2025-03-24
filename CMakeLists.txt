@@ -12,6 +12,18 @@ qt_add_executable(appFOODIEZ
     main.cpp
 )
 
+file(GLOB_RECURSE image_files
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    Assets/*.*)
+
+# Remove .DS_Store or any unwanted files
+list(FILTER image_files EXCLUDE REGEX ".*\\.DS_Store$")
+list(FILTER image_files EXCLUDE REGEX "^\\..*")  # Optional: exclude all dotfiles
+
+qt_add_resources(appFOODIEZ "images"
+    FILES ${image_files}
+)
+
 qt_add_qml_module(appFOODIEZ
     URI FOODIEZ
     VERSION 1.0

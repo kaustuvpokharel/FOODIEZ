@@ -51,4 +51,7 @@
     <qresource prefix="/placeholders">
         <file>Assets/images/placeholder.png</file>
     </qresource>
+    <qresource prefix="/logo">
+        <file>Assets/images/Foodiez.png</file>
+    </qresource>
 </RCC>

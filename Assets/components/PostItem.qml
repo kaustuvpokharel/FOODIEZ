@@ -6,25 +6,19 @@ import Qt5Compat.GraphicalEffects
 Rectangle {
     id: root
     width: parent.width
-    height: 800
+    height: content.implicitHeight
     color: "#121212"
 
     property var postData: postData || {}
-    property bool isLiked: false
-    property bool showCommentBox: false
-    property string newComment: ""
 
-    ListModel {
-        id: commentModel
-    }
-
-    ColumnLayout {
+    Column{
+        id: content
         anchors.fill: parent
-        spacing: 0
+        spacing: 8
 
-        // Post Header
+        // Post Header (Profile + Name)
         Rectangle {
-            Layout.fillWidth: true
+            width: parent.width
             height: 50
             color: "transparent"
 
@@ -33,6 +27,7 @@ Rectangle {
                 anchors.margins: 12
                 spacing: 10
 
+                // Profile Image with Mask
                 Rectangle {
                     width: 36
                     height: 36
@@ -56,6 +51,7 @@ Rectangle {
                     }
                 }
 
+                // User Name
                 Text {
                     text: postData?.user?.name || "Unknown"
                     color: "#ffffff"
@@ -66,6 +62,7 @@ Rectangle {
 
                 Item { Layout.fillWidth: true }
 
+                // More Options Button
                 Image {
                     source: "qrc:/icons/Assets/icons/more-horizontal.png"
                     width: 24
@@ -81,9 +78,10 @@ Rectangle {
 
         // Post Image
         Rectangle {
-            Layout.fillWidth: true
-            Layout.topMargin: -20
+            width: parent.width
+            anchors.topMargin: -20
             height: 400
+
             color: "#1A1A1A"
             clip: true
 
@@ -94,26 +92,23 @@ Rectangle {
             }
         }
 
-        // Action Buttons
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 50
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.topMargin: -20
+        // **Action Buttons (Like, Comment, Share, Bookmark)**
+        Row{
+            width: parent.width
+            height: 50
+            anchors.leftMargin: 12
+            anchors.rightMargin: 12
+            anchors.topMargin: -20
             spacing: 16
 
             Image {
-                source: root.isLiked ? "qrc:/icons/Assets/icons/heart-filled.png" : "qrc:/icons/Assets/icons/heart.png"
+                source: "qrc:/icons/Assets/icons/heart.png"
                 width: 28
                 height: 28
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        root.isLiked = !root.isLiked
-                        console.log("Like toggled:", root.isLiked)
-                    }
+                    onClicked: console.log("Like clicked")
                 }
             }
 
@@ -124,9 +119,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        root.showCommentBox = !root.showCommentBox
-                    }
+                    onClicked: console.log("Comment clicked")
                 }
             }
 
@@ -141,7 +134,7 @@ Rectangle {
                 }
             }
 
-            Item { Layout.fillWidth: true }
+            Item { width: parent.width }
 
             Image {
                 source: "qrc:/icons/Assets/icons/bookmark.png"
@@ -155,22 +148,22 @@ Rectangle {
             }
         }
 
-        // Like Count
+        // **Like Count**
         Text {
-            Layout.leftMargin: 12
-            Layout.topMargin: -10
-            text: (postData?.likes || 0) + (root.isLiked ? 1 : 0) + " likes"
+            anchors.leftMargin: 12
+            anchors.topMargin: -10
+            text: (postData?.likes || 0) + " likes"
             color: "#ffffff"
             font.pixelSize: 14
             font.weight: Font.Bold
         }
 
-        // Caption
+        // **Caption & Hashtags**
         Column {
-            Layout.fillWidth: true
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.topMargin: 10
+            width: parent.width
+            anchors.leftMargin: 12
+            anchors.rightMargin: 12
+            anchors.topMargin: 10
             spacing: 2
 
             Text {
@@ -188,68 +181,11 @@ Rectangle {
             }
         }
 
-        // Comment List
-        ListView {
-            Layout.fillWidth: true
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.topMargin: 10
-            height: Math.min(commentModel.count * 30, 120)
-            model: commentModel
-            delegate: Text {
-                text: model.display
-                color: "#cccccc"
-                font.pixelSize: 14
-                wrapMode: Text.Wrap
-            }
-        }
-
-        // Comment Input
+        // **Try Me Button (Smaller & Positioned to the Right)**
         Rectangle {
-            Layout.fillWidth: true
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.topMargin: 10
-            height: 40
-            visible: root.showCommentBox
-            color: "#1E1E1E"
-            radius: 6
-            border.color: "#3A3A3A"
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: 6
-                spacing: 6
-
-                TextField {
-                    id: commentField
-                    Layout.fillWidth: true
-                    placeholderText: "Add a comment..."
-                    text: root.newComment
-                    onTextChanged: root.newComment = text
-                    color: "#ffffff"
-                    font.pixelSize: 14
-                    background: null
-                }
-
-                Button {
-                    text: "Post"
-                    enabled: root.newComment.length > 0
-                    onClicked: {
-                        commentModel.append({ display: root.newComment })
-                        console.log("Comment posted:", root.newComment)
-                        root.newComment = ""
-                        commentField.text = ""
-                    }
-                }
-            }
-        }
-
-        // Try Me Button
-        Rectangle {
-            Layout.alignment: Qt.AlignLeft
-            Layout.leftMargin: 12
-            Layout.topMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 12
+            anchors.topMargin: 10
             width: 80
             height: 32
             radius: 16

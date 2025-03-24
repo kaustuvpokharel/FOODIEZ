@@ -37,7 +37,7 @@ Item {
         anchors.centerIn: parent
         running: root.loading
         visible: root.loading
-        z: 1000  // Make sure it's above all elements
+        z: 1000
         width: 64
         height: 64
     }
