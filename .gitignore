@@ -87,8 +87,6 @@ Makefile
 .DS_Store
 *.orig
 
-*/dist/
-
+*/*.egg-info
+*.mp4
 */constants.py
-*/tests/*.mp4
-media_analyzer.egg-info/
