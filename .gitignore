@@ -13,6 +13,8 @@ Pipfile.lock
 poetry.lock
 .pytest_cache
 
+dist/
+
 # Django specific
 *.sqlite3
 db.sqlite3
@@ -91,3 +93,5 @@ Makefile
 bijok_code.py
 
 */constants.py
+*/tests/*.mp4
+media_analyzer.egg-info/
