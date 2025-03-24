@@ -5,7 +5,7 @@ import QtQuick.Layouts
 Item {
     id: root
     width: parent.width
-    height: parent.width
+    height: parent.height
 
     property int currentTabIndex: 0
 
@@ -48,10 +48,10 @@ Item {
         anchors.fill: parent
         color: "#121212"
 
-        ColumnLayout
+        Column
         {
             width: parent.width
-            height: parent.width
+            height: parent.height
             spacing: 0
 
             Item {
@@ -74,7 +74,7 @@ Item {
                 height: 60
                 color: "#1A1A1A"
 
-                RowLayout
+                Row
                 {
                     width: parent.width
                     height: parent.height
@@ -91,7 +91,7 @@ Item {
                             height: parent.height
                             color: "transparent"
 
-                            ColumnLayout
+                            Column
                             {
                                 width: parent.width
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -104,7 +104,7 @@ Item {
                                             (index === root.currentTabIndex ? modelData.activeIcon : modelData.icon) + ".png"
                                     width: 24
                                     height: 24
-                                    Layout.alignment: Qt.AlignHCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                 }
                             }
 

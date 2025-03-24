@@ -14,9 +14,10 @@ public:
 signals:
     void authResult(bool result);
 
-
+private slots:
+    void onReplyFinished(QNetworkReply* reply);
 private:
-    QTcpSocket* socket;
+    QNetworkAccessManager* networkManager;
 
 };
 

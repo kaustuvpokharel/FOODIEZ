@@ -18,13 +18,16 @@ Item {
     property string emailText: ""
     property string passwordText: ""
 
-    Connections
-    {
+    Connections {
         target: Auth
         function onAuthResult(success) {
             loading = false;
-            if (success) root.loginSuccessful();
-            else console.log("Invalid credentials");
+            if (success) {
+                errorMessage.text = "";
+                root.loginSuccessful();
+            } else {
+                errorMessage.text = "Invalid email or password";
+            }
         }
     }
 
@@ -34,7 +37,7 @@ Item {
         anchors.centerIn: parent
         running: root.loading
         visible: root.loading
-        z: 1000  // Make sure it's above all elements
+        z: 1000
         width: 64
         height: 64
     }
@@ -174,6 +177,15 @@ Item {
                     }
                 }
 
+                //Error to user
+                Text {
+                    id: errorMessage
+                    text: ""
+                    color: "#FF5252"
+                    font.pixelSize: 14
+                    visible: text.length > 0
+                }
+
                 // Sign In button with validation
                 Rectangle {
                     Layout.fillWidth: true
@@ -188,8 +200,11 @@ Item {
                         enabled: emailText.length > 8 && passwordText.length > 8
 
                         onClicked: {
-                            loading = true;
-                            Auth.checkUser(emailText, passwordText);
+                            // loading = true;
+                            // Auth.checkUser(emailText, passwordText);
+
+                            ///Fort testing
+                            root.loginSuccessful();
                         }
                     }
                     Row {

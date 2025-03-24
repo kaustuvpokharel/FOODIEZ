@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <Loginauthentication.h>
+#include <Postmodel.h>
 #include <QQmlContext>
 
 int main(int argc, char *argv[])
@@ -12,6 +13,10 @@ int main(int argc, char *argv[])
     //for LoginAuthetication Class
     LoginAuth auth;
     engine.rootContext()->setContextProperty("Auth", &auth);
+
+    //for posts retrival
+    PostModel postModel;
+    engine.rootContext()->setContextProperty("postModel", &postModel);
 
 
     const QUrl url(u"qrc:/FOODIEZ/main.qml"_qs);
