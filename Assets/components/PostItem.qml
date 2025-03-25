@@ -56,8 +56,8 @@ Rectangle {
                     text: postData?.user?.name || "Unknown"
                     color: "#ffffff"
                     font.pixelSize: 14
-                    font.family: "Inter"
-                    font.weight: Font.Bold
+                    font.family: "pBold"
+                    font.weight: 700
                 }
 
                 Item { Layout.fillWidth: true }

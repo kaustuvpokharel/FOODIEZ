@@ -1,7 +1,7 @@
 // @ author Kaustuv Pokharel
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
 
@@ -118,6 +118,7 @@ Item {
                             Layout.fillWidth: true
                             placeholderText: "Email"
                             color: "#ffffff"
+                            placeholderTextColor:"#9C27B0"
                             font.pixelSize: 16
                             font.family: "pRegular"
                             font.weight: 400
@@ -152,6 +153,7 @@ Item {
                             Layout.fillWidth: true
                             placeholderText: "Password"
                             color: "#ffffff"
+                            placeholderTextColor: "#9C27B0"
                             font.pixelSize: 16
                             font.family: "pRegular"
                             font.weight: 400
@@ -190,7 +192,7 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 56
-                    color: emailText.length > 8 && passwordText.length > 8 ? "#9C27B0" : "#666666"
+                    color: emailText.length > 8 && passwordText.length > 8 ? "#9C27B0" : "#444444"
                     radius: 12
                     Layout.topMargin: 8
 
@@ -223,6 +225,7 @@ Item {
                             source: "qrc:/icons/Assets/icons/arrow-right.png"
                             width: 16
                             height: 16
+                            anchors.topMargin: -10
                         }
                     }
                 }
