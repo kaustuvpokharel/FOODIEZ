@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from django.db.models import F
@@ -53,7 +54,8 @@ class Post(BaseModel):
     def save(self, *args, **kwargs):
         """Generate a unique slug if not provided and create a recipe if a media file is uploaded."""
         if not self.slug:
-            self.slug = slugify(f"{self.user.username}-{self.created_at.timestamp()}")
+            now = timezone.now()
+            self.slug = slugify(f"{self.user.username}-{now.timestamp()}")
 
         super().save(*args, **kwargs)
 
