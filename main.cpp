@@ -4,6 +4,8 @@
 #include <Exploremodel.h>
 #include <Postmodel.h>
 #include <Uploadmodel.h>
+#include <Reelmodel.h>
+#include <Profilemodel.h>
 #include <QQmlContext>
 
 int main(int argc, char *argv[])
@@ -28,6 +30,13 @@ int main(int argc, char *argv[])
     UploadModel uploadModel;
     engine.rootContext()->setContextProperty("uploadModel", &uploadModel);
 
+    //for reels
+    ReelModel reelModel;
+    engine.rootContext()->setContextProperty("reelModel", &reelModel);
+
+    //for prolfile
+    ProfileModel profileModel;
+    engine.rootContext()->setContextProperty("profileModel", &profileModel);
 
     const QUrl url(u"qrc:/FOODIEZ/main.qml"_qs);
     QObject::connect(

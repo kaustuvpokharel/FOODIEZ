@@ -1,4 +1,4 @@
-#include "PostModel.h"
+#include "Postmodel.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

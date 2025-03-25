@@ -41,10 +41,12 @@ qt_add_qml_module(FOODIEZ
 
     QML_FILES Assets/components/PostItem.qml
     QML_FILES Assets/components/StoryItem.qml
+    QML_FILES Assets/components/ReelItem.qml
     SOURCES Postmodel.h Postmodel.cpp
     SOURCES Exploremodel.h Exploremodel.cpp
     SOURCES Uploadmodel.h Uploadmodel.cpp
-
+    SOURCES Reelmodel.h Reelmodel.cpp
+    SOURCES Profilemodel.h Profilemodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -65,3 +67,6 @@ include(GNUInstallDirs)
 install(TARGETS FOODIEZ
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+set_property(TARGET FOODIEZ APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android")
+

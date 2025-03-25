@@ -1,4 +1,4 @@
-#include "ExploreModel.h"
+#include "Exploremodel.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
