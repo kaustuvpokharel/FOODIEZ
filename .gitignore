@@ -13,6 +13,8 @@ Pipfile.lock
 poetry.lock
 .pytest_cache
 
+dist/
+
 # Django specific
 *.sqlite3
 db.sqlite3
@@ -85,5 +87,12 @@ Makefile
 .DS_Store
 *.orig
 
+*/*.egg-info
+*.mp4
 */dist/
 */media_analysis.egg-info/
+
+bijok_code.py
+
+*/constants.py
+**/constants.py
