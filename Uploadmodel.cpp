@@ -1,4 +1,4 @@
-#include "UploadModel.h"
+#include "Uploadmodel.h"
 #include <QFileInfo>
 #include <QHttpPart>
 #include <QFile>

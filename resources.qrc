@@ -54,4 +54,7 @@
     <qresource prefix="/logo">
         <file>Assets/images/Foodiez.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Assets/components/ReelItem.qml</file>
+    </qresource>
 </RCC>
