@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
 
-qt_add_executable(appFOODIEZ
+qt_add_executable(FOODIEZ
     main.cpp
 )
 
@@ -20,11 +20,11 @@ file(GLOB_RECURSE image_files
 list(FILTER image_files EXCLUDE REGEX ".*\\.DS_Store$")
 list(FILTER image_files EXCLUDE REGEX "^\\..*")  # Optional: exclude all dotfiles
 
-qt_add_resources(appFOODIEZ "images"
+qt_add_resources(FOODIEZ "images"
     FILES ${image_files}
 )
 
-qt_add_qml_module(appFOODIEZ
+qt_add_qml_module(FOODIEZ
     URI FOODIEZ
     VERSION 1.0
     QML_FILES main.qml
@@ -42,23 +42,26 @@ qt_add_qml_module(appFOODIEZ
     QML_FILES Assets/components/PostItem.qml
     QML_FILES Assets/components/StoryItem.qml
     SOURCES Postmodel.h Postmodel.cpp
+    SOURCES Exploremodel.h Exploremodel.cpp
+    SOURCES Uploadmodel.h Uploadmodel.cpp
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(appFOODIEZ PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appFOODIEZ
+set_target_properties(FOODIEZ PROPERTIES
+#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.FOODIEZ
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appFOODIEZ
+target_link_libraries(FOODIEZ
     PRIVATE Qt6::Quick)
 
 include(GNUInstallDirs)
-install(TARGETS appFOODIEZ
+install(TARGETS FOODIEZ
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import "../components"
 
@@ -140,8 +140,7 @@ Item {
                 Column {
                     width: parent.width
                     spacing: 16
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                     Repeater {
                         model: 3
@@ -187,7 +186,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 }
