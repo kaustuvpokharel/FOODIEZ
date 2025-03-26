@@ -13,11 +13,11 @@ LoginAuth::LoginAuth(QObject* parent)
  */
 void LoginAuth::checkUser(QString email, QString password)
 {
-    QUrl url("http://severLink");
+    QUrl url("https://foodiez.vaskrneup.com/user/api/token/");
     QNetworkRequest request(url);
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
+    qInfo() << email << "\n" << password;
     QJsonObject json;
     json["email"] = email;
     json["password"] = password;
@@ -39,14 +39,28 @@ void LoginAuth::onReplyFinished(QNetworkReply *reply)
     }
 
     QByteArray responseData = reply ->readAll();
-    QString response = QString::fromUtf8(responseData).trimmed();
-
-    if(response == "1" || response == "true" || response.contains("success"))
-    {
-        emit authResult(true);
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "JSON parse error:" << parseError.errorString();
+        emit authResult(false);
+        reply->deleteLater();
+        return;
     }
-    else
-    {
+
+    QJsonObject jsonObj = jsonDoc.object();
+
+    if (jsonObj.contains("access") && jsonObj.contains("refresh") && jsonObj.contains("user")) {
+        qDebug() << "Login successful!";
+        qDebug() << "Access Token:" << jsonObj["access"].toString();
+        qDebug() << "Refresh Token:" << jsonObj["refresh"].toString();
+
+        accessToken = jsonObj["access"].toString();
+        refreshToken = jsonObj["refresh"].toString();
+
+        emit authResult(true);
+    } else {
+        qDebug() << "Login failed: Missing tokens or user data in response.";
         emit authResult(false);
     }
 

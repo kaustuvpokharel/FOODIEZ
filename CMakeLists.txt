@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Network REQUIRED)
 
 qt_add_executable(FOODIEZ
     main.cpp
@@ -61,7 +61,7 @@ set_target_properties(FOODIEZ PROPERTIES
 )
 
 target_link_libraries(FOODIEZ
-    PRIVATE Qt6::Quick)
+    PRIVATE Qt6::Quick Qt6::Network)
 
 include(GNUInstallDirs)
 install(TARGETS FOODIEZ
