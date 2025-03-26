@@ -18,6 +18,8 @@ private slots:
     void onReplyFinished(QNetworkReply* reply);
 private:
     QNetworkAccessManager* networkManager;
+    QString accessToken;
+    QString refreshToken;
 
 };
 

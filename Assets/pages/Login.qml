@@ -192,21 +192,21 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 56
-                    color: emailText.length > 8 && passwordText.length > 8 ? "#9C27B0" : "#444444"
+                    color: emailText.length > 1 && passwordText.length > 1 ? "#9C27B0" : "#444444"
                     radius: 12
                     Layout.topMargin: 8
 
                     MouseArea {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        enabled: emailText.length > 8 && passwordText.length > 8
+                        enabled: emailText.length > 1 && passwordText.length > 1
 
                         onClicked: {
-                            // loading = true;
-                            // Auth.checkUser(emailText, passwordText);
+                            loading = true;
+                            Auth.checkUser(emailText, passwordText);
 
-                            ///Fort testing
-                            root.loginSuccessful();
+                            // ///Fort testing
+                            // root.loginSuccessful();
                         }
                     }
                     Row {
