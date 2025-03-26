@@ -60,7 +60,7 @@ void LoginAuth::onReplyFinished(QNetworkReply *reply)
 
         emit authResult(true);
     } else {
-        qDebug() << "Login failed: Missing tokens or user data in response";
+        qDebug() << "Login failed: Missing tokens or user data in response.";
         emit authResult(false);
     }
 
