@@ -20,6 +20,21 @@ file(GLOB_RECURSE image_files
 list(FILTER image_files EXCLUDE REGEX ".*\\.DS_Store$")
 list(FILTER image_files EXCLUDE REGEX "^\\..*")  # Optional: exclude all dotfiles
 
+
+if(ANDROID)
+    set(OPENSSL_LIBS_DIR $/Users/kaustuvpokharel/Documents/SenecaHackthon2025/build-FOODIEZ-Android_Qt_6_6_3_Clang_arm64_v8a-Debug/android-build/libs/arm64-v8a)
+
+    set_property(TARGET FOODIEZ APPEND PROPERTY ANDROID_EXTRA_LIBS
+        ${OPENSSL_LIBS_DIR}/libssl.so
+        ${OPENSSL_LIBS_DIR}/libcrypto.so
+    )
+endif()
+
+set_property(TARGET FOODIEZ APPEND PROPERTY ANDROID_EXTRA_LIBS
+    ${OPENSSL_LIBS_DIR}/libssl.so
+    ${OPENSSL_LIBS_DIR}/libcrypto.so
+)
+
 qt_add_resources(FOODIEZ "images"
     FILES ${image_files}
 )

@@ -50,8 +50,14 @@ void PostModel::fetchPosts() {
     m_loading = true;
     emit loadingChanged();
 
-    QUrl url("http://yourserverhrtr");
+    QUrl url("https://foodiez.vaskrneup.com/post/posts/");  // Replace with real API URL
     QNetworkRequest request(url);
+
+    if (!accessToken.isEmpty()) {
+        QString bearerToken = "Bearer " + accessToken;
+        request.setRawHeader("Authorization", bearerToken.toUtf8());
+    }
+
     networkManager->get(request);
 }
 
@@ -120,3 +126,8 @@ void PostModel::onReplyFinished(QNetworkReply *reply) {
 bool PostModel::isLoading() const {
     return m_loading;
 }
+
+void PostModel::setAccessToken(const QString &token) {
+    accessToken = token;
+}
+

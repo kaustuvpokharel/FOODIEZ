@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import QtQuick.Dialogs
+import QtMultimedia
 
 Item {
     id: root
@@ -10,6 +11,9 @@ Item {
     height: parent.height
 
     property string selectedFilePath: ""
+    property bool previewingPost: false
+    property bool uploading: false
+    property real uploadProgressValue: 0
 
     Rectangle {
         anchors.fill: parent
@@ -36,7 +40,6 @@ Item {
                     Layout.topMargin: 20
                 }
 
-                // Upload area
                 Rectangle {
                     id: uploadArea
                     Layout.fillWidth: true
@@ -73,21 +76,24 @@ Item {
                         }
                     }
 
-                    Image {
+                    Loader {
                         anchors.fill: parent
                         visible: selectedFilePath !== ""
-                        source: selectedFilePath
-                        fillMode: Image.PreserveAspectCrop
+                        sourceComponent: selectedFilePath.endsWith(".mp4") || selectedFilePath.endsWith(".mov")
+                            ? videoPreview : imagePreview
                     }
 
-                    MouseArea {
+                    MouseArea
+                    {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        onClicked: fileDialog.open()
+                        onClicked: {
+                            fileDialog.open()
+                            console.log("File dialog opened")
+                        }
                     }
                 }
 
-                // Caption input
                 Rectangle {
                     id: captionBox
                     Layout.fillWidth: true
@@ -108,18 +114,9 @@ Item {
                         font.weight: 500
                         wrapMode: TextArea.Wrap
                         clip: true
-
-                        background: Rectangle {
-                            color: "transparent"
-                        }
-
-                        ScrollBar.vertical: ScrollBar {
-                            policy: ScrollBar.AsNeeded
-                        }
                     }
                 }
 
-                // Options list
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.margins: 20
@@ -207,7 +204,6 @@ Item {
                     }
                 }
 
-                // Post button
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.margins: 20
@@ -227,14 +223,11 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
+                        enabled: !uploading
                         onClicked: {
-                            if (selectedFilePath !== "") {
-                                uploadModel.uploadPost(selectedFilePath, captionField.text)
-                            } else {
-                                resultLabel.text = "Please select a file to upload."
-                                resultDialog.open()
-                            }
+                            uploading = true
+                            let filePath = Qt.platform.os === "android" ? selectedFilePath : selectedFilePath.replace("file://", "")
+                            uploadModel.uploadPost(filePath, captionField.text)
                         }
                     }
                 }
@@ -242,38 +235,187 @@ Item {
         }
     }
 
-    FileDialog {
+    FileDialog
+    {
         id: fileDialog
         title: "Select image or video"
-        nameFilters: ["Images (*.png *.jpg *.jpeg)", "Videos (*.mp4 *.mov)", "All files (*)"]
+        nameFilters: ["Images (*.png *.jpg *.jpeg)", "Videos (*.mp4 *.mov)"]
+
         onAccepted: {
-            selectedFilePath = fileDialog.fileUrl.toString().replace("file://", "")
+            let file = fileDialog.selectedFile || (fileDialog.selectedFiles && fileDialog.selectedFiles.length > 0 ? fileDialog.selectedFiles[0] : "")
+            if (file) {
+                selectedFilePath = file.toString()
+                console.log("Selected file:", selectedFilePath)
+            } else {
+                console.log("No file selected")
+            }
         }
     }
 
     Dialog {
-            id: resultDialog
-            title: "Upload:"
-            standardButtons: Dialog.Ok
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
+        id: resultDialog
+        title: "Upload:"
+        standardButtons: Dialog.Ok
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
 
-            Label
-            {
-                id: resultLabel
-                text: ""
-                color: "#9C27B0"
-                wrapMode: Text.WordWrap
-                width: parent.width - 40
-            }
+        Label {
+            id: resultLabel
+            text: ""
+            color: "#9C27B0"
+            wrapMode: Text.WordWrap
+            width: parent.width - 40
         }
-
+    }
 
     Connections {
         target: uploadModel
-        onUploadFinished: (success, message) => {
+
+        function onUploadFinished(success, message) {
             resultLabel.text = message
             resultDialog.open()
+
+            if (success) {
+                selectedFilePath = ""
+                captionField.text = ""
+                previewingPost = false
+
+                // Optional: Refresh posts or profile after upload
+                postModel.fetchPosts()
+                profileModel.fetchUserProfile()
+            }
+
+            uploading = false
+            uploadProgressValue = 0
+        }
+
+        function onUploadProgress(sent, total) {
+            uploadProgressValue = total > 0 ? sent / total : 0
+        }
+    }
+
+    Rectangle {
+        visible: previewingPost
+        anchors.fill: parent
+        color: "#121212EE"
+        z: 9999
+
+        ColumnLayout {
+            anchors.centerIn: parent
+            spacing: 20
+            width: parent.width * 0.9
+
+            Rectangle {
+                width: parent.width
+                height: 400
+                radius: 12
+                color: "#1A1A1A"
+
+                Loader {
+                    anchors.fill: parent
+                    sourceComponent: selectedFilePath.endsWith(".mp4") || selectedFilePath.endsWith(".mov")
+                        ? videoPreview : imagePreview
+                }
+            }
+
+            Text {
+                text: captionField.text
+                color: "#ffffff"
+                font.pixelSize: 16
+                wrapMode: Text.Wrap
+            }
+
+            RowLayout {
+                width: parent.width
+                spacing: 12
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: 48
+                    radius: 8
+                    color: "#444444"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "Cancel"
+                        color: "#ffffff"
+                        font.pixelSize: 16
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            previewingPost = false
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: 48
+                    radius: 8
+                    color: "#9C27B0"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: uploading ? "Uploading..." : "Confirm & Post"
+                        color: "#ffffff"
+                        font.pixelSize: 16
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        enabled: !uploading
+                        onClicked: {
+                            if (selectedFilePath === "" || captionField.text.trim() === "") {
+                                resultLabel.text = "Please select a file and write a caption."
+                                resultDialog.open()
+                                return
+                            }
+
+                            let validExt = /\.(jpg|jpeg|png|mp4|mov)$/i.test(selectedFilePath)
+                            if (!validExt) {
+                                resultLabel.text = "Invalid file format. Please select an image or video."
+                                resultDialog.open()
+                                return
+                            }
+
+                            uploading = true
+                            let filePath = Qt.platform.os === "android" ? selectedFilePath : selectedFilePath.replace("file://", "")
+                            uploadModel.uploadPost(filePath, captionField.text)
+                        }
+                    }
+                }
+            }
+
+            ProgressBar {
+                visible: uploading
+                from: 0
+                to: 1
+                value: uploadProgressValue
+                Layout.fillWidth: true
+            }
+        }
+    }
+
+    Component {
+        id: imagePreview
+        Image {
+            anchors.fill: parent
+            source: selectedFilePath  // already includes "file://"
+            fillMode: Image.PreserveAspectCrop
+            cache: false
+            asynchronous: true
+        }
+    }
+
+    Component {
+        id: videoPreview
+        Video {
+            anchors.fill: parent
+            source: selectedFilePath  // already includes "file://"
+            loops: MediaPlayer.Infinite
+            //autoPlay: true
         }
     }
 }

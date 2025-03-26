@@ -10,6 +10,7 @@ class LoginAuth: public QObject
 public:
     LoginAuth(QObject* parent = nullptr);
     Q_INVOKABLE void checkUser(QString email, QString password);
+    QString getAccessToken() const;
 
 signals:
     void authResult(bool result);

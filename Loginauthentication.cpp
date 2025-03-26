@@ -27,6 +27,10 @@ void LoginAuth::checkUser(QString email, QString password)
     networkManager->post(request, data);
 }
 
+QString LoginAuth::getAccessToken() const {
+    return accessToken;
+}
+
 void LoginAuth::onReplyFinished(QNetworkReply *reply)
 {
     if(reply->error() != QNetworkReply::NoError)

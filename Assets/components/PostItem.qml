@@ -5,7 +5,7 @@ import Qt5Compat.GraphicalEffects
 
 Rectangle {
     id: root
-    width: parent.width
+    width: 390//parent.width
     height: content.implicitHeight
     color: "#121212"
 
@@ -38,7 +38,7 @@ Rectangle {
                         id: profileImage
                         width: 36
                         height: 36
-                        source: postData?.user?.avatar || "qrc:/avatar/Assets/images/default_avatar.png"
+                        source: ("https://foodiez.vaskrneup.com/" + postData?.user?.avatar) || "qrc:/avatar/Assets/images/default_avatar.png"
                         fillMode: Image.PreserveAspectCrop
                         layer.enabled: true
                         layer.effect: OpacityMask {
@@ -87,7 +87,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: postData?.image || "qrc:/placeholders/Assets/images/placeholder.png"
+                source: ("https://foodiez.vaskrneup.com/"+ postData?.image) || "qrc:/placeholders/Assets/images/placeholder.png"
                 fillMode: Image.PreserveAspectCrop
             }
         }
@@ -154,8 +154,9 @@ Rectangle {
             anchors.topMargin: -10
             text: (postData?.likes || 0) + " likes"
             color: "#ffffff"
+            font.family: "pMedium"
             font.pixelSize: 14
-            font.weight: Font.Bold
+            font.weight: 500
         }
 
         // **Caption & Hashtags**
@@ -169,8 +170,9 @@ Rectangle {
             Text {
                 text: postData?.user?.name || "Unknown"
                 color: "#ffffff"
-                font.weight: Font.Bold
+                font.family: "pBold"
                 font.pixelSize: 14
+                font.weight: 700
             }
 
             Text {
@@ -178,6 +180,9 @@ Rectangle {
                 color: "#ffffff"
                 wrapMode: Text.Wrap
                 width: parent.width - 24
+                font.family: "pMedium"
+                font.pixelSize: 14
+                font.weight: 500
             }
         }
 

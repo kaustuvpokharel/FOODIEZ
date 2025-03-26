@@ -31,6 +31,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void fetchPosts();
+    Q_INVOKABLE void setAccessToken(const QString &token);
 
 private slots:
     void onReplyFinished(QNetworkReply *reply);
@@ -54,6 +55,7 @@ private:
     bool m_loading = true;
     QList<Post> posts;
     QNetworkAccessManager* networkManager;
+    QString accessToken;
 };
 
 #endif // POSTMODEL_H

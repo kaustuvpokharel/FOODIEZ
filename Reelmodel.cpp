@@ -122,3 +122,5 @@ void ReelModel::onReplyFinished(QNetworkReply *reply) {
 bool ReelModel::isLoading() const {
     return m_loading;
 }
+
+

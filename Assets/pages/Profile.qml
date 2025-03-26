@@ -65,7 +65,7 @@ Item {
 
                         Image {
                             anchors.fill: parent
-                            source: profileModel.dpImage
+                            source: "https://foodiez.vaskrneup.com" + profileModel.dpImage
                             fillMode: Image.PreserveAspectCrop
                             layer.enabled: true
                             layer.effect: OpacityMask {
@@ -214,7 +214,7 @@ Item {
 
                             Image {
                                 anchors.fill: parent
-                                source: modelData.image
+                                source: "https://foodiez.vaskrneup.com"+ modelData.image
                                 fillMode: Image.PreserveAspectCrop
                             }
 
